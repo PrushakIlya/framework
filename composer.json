@@ -1,0 +1,22 @@
+{
+    "name": "prushak/framework",
+    "autoload": {
+        "psr-4": {
+            "Prushak\\Framework\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Prushak\\Framework\\Test\\": "test/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ilya Prushak"
+        }
+    ],
+    "require": {
+        "smarty/smarty": "^5.7",
+        "ext-pdo": "*"
+    }
+}
