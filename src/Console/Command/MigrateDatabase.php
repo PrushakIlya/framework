@@ -36,7 +36,7 @@ class MigrateDatabase extends CommandAbstract implements CommandInterface
             $method = $params['flag'];
             $pdo->exec($migration->$method());
 
-            $this->messageDone();
+            $this->messageDone($files[$i]);
         }
 
         return 0;

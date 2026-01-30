@@ -27,7 +27,7 @@ class Application
 
         $command = $this->container->get($commandName);
         
-        return $command->execute($params, $this->container);
+        return $command->execute($this->container, $params);
     }
 
     private function argvParse(array $argvs): array
