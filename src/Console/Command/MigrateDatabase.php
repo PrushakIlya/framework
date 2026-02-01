@@ -10,6 +10,8 @@ class MigrateDatabase extends CommandAbstract implements CommandInterface
 
     public function execute(ContainerInterface $container, array $params = []): int
     {
+        $dir = '/database/migrations/';
+
         if (count($params) === 0) {
             echo 'Please, point a flag' . \PHP_EOL;
 
@@ -19,7 +21,7 @@ class MigrateDatabase extends CommandAbstract implements CommandInterface
         $dbConnect = $container->get('connect_db');
         $pdo = $dbConnect();
         
-        $dir = $_SERVER['PWD'] . '/migrations';
+        $dir = $_SERVER['PWD'] . $dir;
 
         $files = scandir($dir);
 
@@ -31,7 +33,7 @@ class MigrateDatabase extends CommandAbstract implements CommandInterface
         }
         
         for ($i = 0; $i < count($files); $i++) {
-            $migration = include_once $_SERVER['PWD'] . '/migrations/' . $files[$i];
+            $migration = include_once $dir . $files[$i];
             
             $method = $params['flag'];
             $pdo->exec($migration->$method());

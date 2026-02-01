@@ -8,7 +8,7 @@ class CommandAbstract
     const RED = "\033[31m";
     const RESET = "\033[0m";
 
-    protected function messageDone($migration_name)
+    protected function messageDone(string $migration_name)
     {
         echo $migration_name . self::GREEN . ' DONE!' . self::RESET . PHP_EOL;
     }

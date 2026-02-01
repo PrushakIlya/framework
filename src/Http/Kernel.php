@@ -21,12 +21,16 @@ class Kernel {
      public function handle(Request $request): Response
      {
         try {
-            [$routeHandler, $vars] = $this->router->dispatch($request, $this->container);
+            [$controller, $method, $vars] = $this->router->dispatch($request, $this->container);
 
-            $func = new $routeHandler[0]();
-            $func->setContainer($this->container);
+            if (!$controller || !$method) {
+                return new Response(404, 404);
+            }
 
-            $response = call_user_func_array([$func, $routeHandler[1]], [...$vars, $request]);
+            $controller = new $controller();
+            $controller->setContainer($this->container);
+
+            $response = call_user_func_array([$controller, $method], [...$vars, $request]);
         }
         catch(\Exception $e) {
            $response = $this->createExceptionResponse($e);

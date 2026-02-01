@@ -32,8 +32,8 @@ readonly class Request {
         return $this->get;
     }
     
-    public function getQuery($id): string 
+    public function getQuery(string $id): ?string
     {
-        return empty($this->get[$id]) ? 1 : $this->get[$id];
+        return empty($this->get[$id]) ? null : $this->get[$id];
     }
 }

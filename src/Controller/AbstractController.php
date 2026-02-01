@@ -17,9 +17,9 @@ class AbstractController {
     {
         $smarty = $this->container->get('smarty');
 
-        $smarty->setTemplateDir($this->container->get('template_path'));
-        $smarty->setCompileDir($this->container->get('compile_dir'));
-        $smarty->setCacheDir($this->container->get('cache_dir'));
+        $smarty->setTemplateDir($this->container->get("template_path"));
+        $smarty->setCompileDir($this->container->get("compile_dir"));
+        $smarty->setCacheDir($this->container->get("cache_dir"));
 
         foreach ($parameters as $key => $value) {
             $smarty->assign($key, $value);

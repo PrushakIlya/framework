@@ -8,25 +8,40 @@ use Prushak\Framework\Http\Request;
 use Prushak\Framework\Container\Psr\ContainerInterface;
 
 class Router implements RouterInterface {
-    public function dispatch($request, $container): array
+    public function dispatch(Request $request, ContainerInterface $container): array
     {
+        $route = explode('/', $request->getPathInfo());
+
         foreach ($container->get('routes') as $item) {
             $pattern = explode('/', $item[1]);
-            $route = explode('/', $request->getPathInfo());
 
-            if (!empty($pattern[2]) and !empty($route[2])) {
-                if ($route[1] === $pattern[1]) {
-                    preg_match('/' . $pattern[2] . '+/', $route[2], $matches);
+            $controller = $item[2][0];
+            $method = $item[2][1];
 
-                    return ([[$item[2][0], $item[2][1]], [$matches[0]]]);
+            if (count($route) === 2) {
+                return [$controller, $method, []];
+            }
+
+            $count = 0;
+            $arg = null;
+
+            foreach ($route as $id=>$el) {
+                if (!empty($pattern[$id])) {
+                    if ($pattern[$id] === '[0-9]') {
+                        $arg = $el;
+                    }
+
+                    if (preg_match('/^' . $pattern[$id] . '+$/', $el, $matches)) {
+                        $count++;
+                    }
                 }
             }
 
-            if ($request->getPathInfo() === $item[1]) {
-                return [[$item[2][0], $item[2][1]], []];
+            if ($count === count($route) - 1 ?? 1 && count($route) === count($pattern)) {
+                return [$controller, $method, [$arg]];
             }
         }
 
-        return [];
+        return [null, null];
     }
 }

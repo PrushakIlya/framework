@@ -40,7 +40,7 @@ class Container implements ContainerInterface
         return $this->resolve($this->services[$id]);
     }
 
-    private function resolve($class): mixed
+    private function resolve(string|array $class): mixed
     {
         try {
             $reflectionClass = new \ReflectionClass($class);
